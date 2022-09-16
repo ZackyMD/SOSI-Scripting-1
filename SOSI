@@ -177,10 +177,12 @@ do
 	then
 		infologinterakhir=$(last | head -n 5)
 		infowaktumulai=$(last | tail -n 1)
+		baganatas="USER     TTY          IP                             TIME"
 		echo ""
 		echo "INFO LOGIN TERAKHIR"
 		echo "==================="
 		echo ""
+		echo "$baganatas"
 		echo "$infologinterakhir"
 		echo ""
 		echo "$infowaktumulai"
