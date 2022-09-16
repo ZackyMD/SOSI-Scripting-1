@@ -176,12 +176,14 @@ do
 	elif [ $pilnor = "5" ]
 	then
 		infologinterakhir=$(last | head -n 5)
+		infowaktumulai=$(last | tail -n 1)
 		echo ""
 		echo "INFO LOGIN TERAKHIR"
 		echo "==================="
 		echo ""
 		echo "$infologinterakhir"
 		echo ""
+		echo "$infowaktumulai"
 		echo ""
 		while true
 		do
