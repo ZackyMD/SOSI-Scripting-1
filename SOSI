@@ -1,0 +1,240 @@
+#!/bin/sh
+
+echo ""
+echo "============================================================="
+echo "SELAMAT DATANG SYSADMIN, Zacky Muchlas Dharmawan - 2106702296"
+echo "============================================================="
+time=$(date)
+echo "$time"
+while true
+do
+	echo ""
+	echo "MENU INFORMASI:"
+	echo "==============="
+	echo ""
+	echo "1. Informasi Sistem"
+	echo "2. Status CPU"
+	echo "3. Status Memori"
+	echo "4. Status Disk"
+	echo "5. Login User Terakhir"
+	echo "6. Berita Keamanan Kernel dari packetstormsecurity.com"
+	echo "7. Keluar"
+	echo ""
+	read -p "Pilihan nomor (1-7):" pilnor
+	echo ""
+
+	if [ $pilnor = "1" ]
+	then
+		modelcpu=$(cat /proc/cpuinfo | grep 'model name' | cut -c 14-)
+		corecpu=$(cat /proc/cpuinfo | grep 'cpu cores' | cut -c 13-)
+		ukurancache=$(cat /proc/cpuinfo | grep 'cache size' | cut -c 14-)
+		sistemoperasi=$(cat /etc/os-release | grep 'PRETTY_NAME' | cut -c 14-)
+		kernelrelease=$(uname -r)
+		hostname=$(uname -n)
+		IP=$(hostname -i)
+		
+		echo "INFORMASI SISTEM"
+		echo "================"
+		echo ""
+		echo "CPU Info"
+		echo "--------"
+		echo ""
+		echo "Model CPU: $modelcpu"
+		echo "Jumlah Core: $corecpu"
+		echo "Ukuran Cache: $ukurancache"
+		echo ""
+		echo "Sistem Info"
+		echo "-----------"
+		echo ""
+		echo "Sistem Operasi: $sistemoperasi"
+		echo "Kernel release: $kernelrelease"
+		echo "Hostname: $hostname"
+		echo "IP: $IP"
+		echo ""
+		echo ""
+		
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "2" ]
+	then
+		utilisasicpu_5=$(ps -eo user,pid,%cpu,start,time,args --sort=%cpu | head -6)
+		echo ""
+		echo "STATUS CPU"
+		echo "=========="
+		echo ""
+		echo "Daftar 5 proses teratas diurut berdasarkan utilisasi CPU:"
+		echo "$utilisasicpu_5"
+		echo ""
+		echo ""
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "3" ]
+	then
+		ukuranmemori=$(free | grep 'Mem' | cut -c 13-20)
+		memoriterpakai=$(free | grep 'Mem' | cut -c 27-32)
+		memoripersen=$(free -t | awk 'FNR == 2 {printf("%.2f"), $3/$2*100}')
+		memorisisa=$(free | grep 'Mem' | cut -c 39-44)
+		
+		ukuranswap=$(free | grep 'Swap' | cut -c 13-20)
+		swapterpakai=$(free | grep 'Swap' | cut -c 27-32)
+		swappersen=$(free -t | awk 'FNR == 3 {printf("%.2f"), $3/$2*100}')
+		swapsisa=$(free | grep 'Swap' | cut -c 39-44)
+		
+		utilisasimemori_5=$(ps -eo user,pid,%mem,start,time,args --sort=%mem | head -6)
+		
+		echo ""
+		echo "STATUS MEMORY"
+		echo "============="
+		echo ""
+		echo "Memori Fisik"
+		echo "Ukuran: $ukuranmemori Kilobytes"
+		echo "Digunakan: $memoriterpakai Kilobytes ($memoripersen %)"
+		echo "Sisa (Free): $memorisisa Kilobytes"
+		echo ""
+		echo "Penyimpanan Swap:"
+		echo "Ukuran: $ukuranswap Kilobytes"
+		echo "Digunakan : $swapterpakai Kilobytes ($swappersen %)"
+		echo "Sisa (Free): $swapsisa Kilobytes"
+		echo ""
+		echo "Daftar 5 proses teratas diurut berdasarkan utilisasi memori:"
+		echo ""
+		echo "$utilisasimemori_5"
+		echo ""
+		echo ""
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "4" ]
+	then
+		ukuranpartisi=$(df -h | head -n -4)
+		ukuranpartisi_2=$(du -h $HOME | tail -n 1)
+		
+		echo ""
+		echo "STATUS DISK"
+		echo "==========="
+		echo ""
+		echo "Ukuran partisi (/)"
+		echo "$ukuranpartisi"
+		echo ""
+		echo "Ukuran partisi (/home/herik)"
+		echo "$ukuranpartisi_2"
+		echo ""
+		echo ""
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "5" ]
+	then
+		infologinterakhir=$(last | head -n 5)
+		echo ""
+		echo "INFO LOGIN TERAKHIR"
+		echo "==================="
+		echo ""
+		echo "$infologinterakhir"
+		echo ""
+		echo ""
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "6" ]
+	then
+		echo ""
+		echo "BERITA KEAMANAN KERNEL TERBARU"
+		echo "=============================="
+		echo ""
+		
+		echo ""
+		echo ""
+		while true
+		do
+			read -p "Kembali ke menu? [y/n]:" yesno
+			if [ $yesno = "y" ]
+			then
+				break;
+			elif [ $yesno = "n" ]
+			then 
+				exit 1
+			else
+				echo "\nInput tidak valid\n"
+				continue;
+			fi
+		done
+	
+	elif [ $pilnor = "7" ]
+	then
+		echo ""
+		echo "Sampai Jumpa dan Tetap Semangat !"
+		echo ""
+		break
+	
+	else
+		
+		echo "Input tidak valid"	
+		
+	fi
+
+done
+		
+	
